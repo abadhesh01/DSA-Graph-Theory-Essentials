@@ -8,7 +8,7 @@ import java.util.PriorityQueue;
 record ResultGraphConnection(int node1, int node2, int edge) {
 	public String toString() {
 		return "[ node1: " + this.node1 + ", node2: " + this.node2 + ", edge: " + this.edge + " ]";
-	}
+    }
 }
 
 class NodeWeightPair {
@@ -18,20 +18,20 @@ class NodeWeightPair {
 	
 	public int getNode() {
 		return this.node;
-	}
+    }
 	
 	public int getWeight() {
 		return this.weight;
-	}
+    }
 	
 	public String toString() {
 		return "{ node = " + this.node + ", weight = " + this.weight + " }";
-	}
+    }
 	
 	public NodeWeightPair(int node, int weight) {
 		this.node = node;
 		this.weight = weight;
-	}
+    }
 	
 }
 
@@ -42,16 +42,16 @@ class Graph {
 	
 	public Map<Integer, List<NodeWeightPair>> getAdjacentList() {
 		return this.adjacentList;
-	}
+    }
 	
 	public int getNumberOfNodes() {
 		return this.numberOfNodes;
-	}
+    }
 	
 	public void addEdge(int node1, int node2, int weight) {
 		this.adjacentList.get(node1).add(new NodeWeightPair(node2, weight));
 		this.adjacentList.get(node2).add(new NodeWeightPair(node1, weight));
-	}
+    }
 	
 	public List<ResultGraphConnection> processPrimMinimumSpanningTree() {
 		
@@ -85,30 +85,30 @@ class Graph {
 					weight[neighbourNode] = neighbourNodeWeight;
 					parent[neighbourNode] = currentNode;
 					queue.add(new NodeWeightPair(neighbourNode, weight[neighbourNode]));						
-				}
-			}
+                }
+            }
 			
-		}
+        }
 		
         // Processing result ...
 		List<ResultGraphConnection> result = new LinkedList<>(); 
         for (int node = 0; node < sourceNode; node++) {
 			result.add(new ResultGraphConnection(parent[node], node, weight[node]));
-		}
+        }
         for (int node = sourceNode + 1; node < this.numberOfNodes; node++) {
 			result.add(new ResultGraphConnection(parent[node], node, weight[node]));
-		}		
+        }		
 		
 	    return result;
-	}
+    }
 	
 	public Graph(int numberOfNodes) {
 		this.numberOfNodes = numberOfNodes;
 		this.adjacentList = new HashMap<>();
 		for (int node = 0; node < numberOfNodes; node++) {
 			adjacentList.put(node, new LinkedList<>());
-		}
-	}
+        }
+    }
 	
 }
 
@@ -127,7 +127,7 @@ public class PrimsAlgo {
 			graph.addEdge(1, 4, 99);
 			graph.addEdge(2, 3, 101);
 			graph.addEdge(2, 4, 56);
-		graph.addEdge(3, 4, 48);*/
+        graph.addEdge(3, 4, 48);*/
 		
 		/* ----- User Input Code ----- */
 		java.util.Scanner input = new java.util.Scanner(System.in);
@@ -137,21 +137,21 @@ public class PrimsAlgo {
 		if (numberOfNodes < 1) {
 			System.out.println("Invalid Input !!! ---> Number of nodes cannot be less than 1.\n");
 			System.exit(0);
-		}
+        }
 		
 		/*System.out.print("\nEnter the starting node (CAUTION - Integer numbers only.): ");		
 			int sourceNode = input.nextInt();  
 			if (sourceNode < 0 || sourceNode >= numberOfNodes) {
 			System.out.println("Invalid Input !!! ---> Starting node should be within the range (0 to " + (numberOfNodes - 1) + " inclusive). \n");
 			System.exit(0);
-		}*/
+        }*/
 		
 		System.out.print("\nEnter the number of connections in your graph (CAUTION - Integer numbers only.): ");		
 		int numberOfConnections = input.nextInt();
 		if (numberOfConnections < 0) {
 			System.out.println("Invalid Input !!! ---> Number of connections cannot be less than 0.\n");
 			System.exit(0);
-		}
+        }
 		
 		List<List<Integer>> connections = new LinkedList<>(); 
 		System.out.println("\n\nEnter the all the connections one by one (CAUTION -Integer numbers only.)::");
@@ -161,24 +161,24 @@ public class PrimsAlgo {
 			if (node1 < 0 || node1 >= numberOfNodes) {
 				System.out.println("Invalid Input !!! ---> Node-1 value should be within the range(0 to " + (numberOfNodes - 1) + ").\n");
 				continue;
-			}
+            }
 			int node2 = input.nextInt(); 
 			if (node2 < 0 || node2 >= numberOfNodes) {
 				System.out.println("Invalid Input !!! ---> Node-2 value should be within the range(0 to " + (numberOfNodes - 1) + ").\n");
 				continue;
-			}
+            }
 			if (node1 == node2) {
 				System.out.println("Invalid Input !!! ---> Node-1 and Node-2 cannot be the same.\n");
 				continue;
-			}
+            }
 			int edge = input.nextInt(); 
 			if (edge <= 0) {
 				System.out.println("Invalid Input !!! ---> Edge value cannot be zero(0) or negative.\n");
 				continue;
-			}
+            }
 			connections.add(List.of(node1, node2, edge));
 			count++;
-		}
+        }
 		
 		input.close();
 		/* ----- User Input Code ----- */
@@ -186,20 +186,20 @@ public class PrimsAlgo {
 		Graph graph = new Graph(numberOfNodes);
 		for (List<Integer> connection : connections) {
 			graph.addEdge(connection.get(0), connection.get(1), connection.get(2));
-		}
+        }
 		
 		System.out.println("Adjacent List:");
 		for (int node = 0; node < numberOfNodes; node++) {
 			System.out.print("Node = " + node + " [ " +graph.getAdjacentList().get(node) + " ] \n");
-		}
+        }
 		
 		List<ResultGraphConnection> resultGraph = graph.processPrimMinimumSpanningTree();
 		String result = "";
 		for (ResultGraphConnection connection: resultGraph) {
 			result += (connection.toString() + "\n");
-		}
+        }
 		System.out.println("\n\nMinimum Spanning Tree:\n" + result); 
 		
-	}
+    }
 	
 }
